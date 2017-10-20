@@ -14,7 +14,14 @@ func main() {
 
   acc := accessory.NewThermostat(info, 20, 16, 28, 0.5)
 
-  t, err := hc.NewIPTransport(hc.Config{Pin: "12341234"}, acc.Accessory)
+  info2 := accessory.Info{
+    Name:         "Room 2",
+    Manufacturer: "Timo Schilling",
+  }
+
+  acc2 := accessory.NewThermostat(info2, 20, 16, 28, 0.5)
+
+  t, err := hc.NewIPTransport(hc.Config{Pin: "12341234"}, acc.Accessory, acc2.Accessory)
   if err != nil {
     log.Fatal(err)
   }
