@@ -7,21 +7,23 @@ import (
 )
 
 func main() {
+  var accessories [2]*accessory.Accessory
+
   info := accessory.Info{
     Name:         "Fritz!Bridge",
     Manufacturer: "Timo Schilling",
   }
 
-  acc := accessory.NewThermostat(info, 20, 16, 28, 0.5)
+  accessories[0] = accessory.NewThermostat(info, 20, 16, 28, 0.5).Accessory
 
   info2 := accessory.Info{
     Name:         "Room 2",
     Manufacturer: "Timo Schilling",
   }
 
-  acc2 := accessory.NewThermostat(info2, 20, 16, 28, 0.5)
+  accessories[1] = accessory.NewThermostat(info2, 20, 16, 28, 0.5).Accessory
 
-  t, err := hc.NewIPTransport(hc.Config{Pin: "12341234", StoragePath: "database"}, acc.Accessory, acc2.Accessory)
+  t, err := hc.NewIPTransport(hc.Config{Pin: "12341234", StoragePath: "database"}, accessories[0], accessories[1])
   if err != nil {
     log.Fatal(err)
   }
