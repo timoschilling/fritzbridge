@@ -4,28 +4,26 @@ import (
   "github.com/brutella/hc"
   "github.com/brutella/hc/accessory"
   "log"
-  "fmt"
+  "./api"
   "./bridge"
 )
 
 func main() {
+  config := api.GetConfig()
   accessories := []*accessory.Accessory{}
 
-  for i := 0; i < 3; i++ {
+  devices := api.GetDevices(config)
+
+  for i := 0; i < len(devices.Device); i++ {
+    device := devices.Device[i]
     info := accessory.Info{
-      Name:         fmt.Sprintf("Room %d", i + 1),
-      Manufacturer: "Timo Schilling",
+      Name:         device.Name,
+      Manufacturer: device.Manufacturer,
+      SerialNumber: device.Identifier,
+      Model:        device.Productname,
     }
 
-    c := 19 + i
-    thermostat := accessory.NewThermostat(info, float64(c), 16, 28, 0.5)
-    state := 0
-    if c < 20 {
-      state = 1
-    }
-    state = 1
-    thermostat.Thermostat.TargetTemperature.SetValue(float64(c + 3))
-    thermostat.Thermostat.CurrentHeatingCoolingState.SetValue(state)
+    thermostat := accessory.NewThermostat(info, device.GetCelsius(), 16, 28, 0.5)
 
     accessories = append(accessories, thermostat.Accessory)
   }
@@ -36,7 +34,7 @@ func main() {
   }
 
   hc.OnTermination(func() {
-    t.Stop()
+    <-t.Stop()
   })
 
   t.Start()
