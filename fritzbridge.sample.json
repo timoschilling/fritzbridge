@@ -1,5 +1,6 @@
 {
   "url": "http://fritz.box",
   "username": "username",
-  "password": "password"
+  "password": "password",
+  "pin": "12312312"
 }
