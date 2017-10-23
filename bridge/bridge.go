@@ -1,4 +1,4 @@
-package main
+package bridge
 
 import (
   "github.com/brutella/hc/accessory"
@@ -13,7 +13,7 @@ func NewBridge() *Bridge {
   info := accessory.Info{
     Name:         "Fritz!Bridge",
     Manufacturer: "AVM",
-    Model:        "Fritz!Box 7490",
+    Model:        "Fritz!Box",
   }
   acc.Accessory = accessory.New(info, accessory.TypeBridge)
 

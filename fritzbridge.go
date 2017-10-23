@@ -5,6 +5,7 @@ import (
   "github.com/brutella/hc/accessory"
   "log"
   "fmt"
+  "./bridge"
 )
 
 func main() {
@@ -29,7 +30,7 @@ func main() {
     accessories = append(accessories, thermostat.Accessory)
   }
 
-  t, err := hc.NewIPTransport(hc.Config{Pin: "12341234", StoragePath: "database"}, NewBridge().Accessory, accessories...)
+  t, err := hc.NewIPTransport(hc.Config{Pin: "12341234", StoragePath: "database"}, bridge.NewBridge().Accessory, accessories...)
   if err != nil {
     log.Fatal(err)
   }
