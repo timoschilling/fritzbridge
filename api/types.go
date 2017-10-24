@@ -17,24 +17,24 @@ type Device struct {
   Name            string   `xml:"name"`
 
   // temperature
-  Celsius         float64  `xml:"temperature>celsius"`
-  Offset          float64  `xml:"temperature>offset"`
+  Celsius         int      `xml:"temperature>celsius"`
+  Offset          int      `xml:"temperature>offset"`
 
   // hkr
-  Tist            string   `xml:"hkr>tist"`
-  Tsoll           string   `xml:"hkr>tsoll"`
-  Absenk          string   `xml:"hkr>absenk"`
-  Komfort         string   `xml:"hkr>komfort"`
-  Lock            string   `xml:"hkr>lock"`
-  Devicelock      string   `xml:"hkr>devicelock"`
-  Errorcode       string   `xml:"hkr>errorcode"`
-  Batterylow      string   `xml:"hkr>batterylow"`
+  Tist            int      `xml:"hkr>tist"`
+  Tsoll           int      `xml:"hkr>tsoll"`
+  Absenk          int      `xml:"hkr>absenk"`
+  Komfort         int      `xml:"hkr>komfort"`
+  Lock            bool     `xml:"hkr>lock"`
+  Devicelock      bool     `xml:"hkr>devicelock"`
+  Errorcode       int      `xml:"hkr>errorcode"`
+  Batterylow      bool     `xml:"hkr>batterylow"`
 
   // nextchange
-  Endperiod       string   `xml:"hkr>nextchange>endperiod"`
-  Tchange         string   `xml:"hkr>nextchange>tchange"`
+  Endperiod       int      `xml:"hkr>nextchange>endperiod"`
+  Tchange         int      `xml:"hkr>nextchange>tchange"`
 }
 
 func (d *Device) GetCelsius() float64 {
-  return d.Celsius / 10.0
+  return float64(d.Celsius) / 10.0
 }
