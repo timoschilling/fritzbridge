@@ -24,7 +24,7 @@ func GetSessionId(config *Config) string {
 }
 
 func GetDevices(config *Config) *Devicelist {
-  resp, err := http.Get(fmt.Sprintf("%s/webservices/homeautoswitch.lua?switchcmd=getdevicelistinfos&sid=%s", config.Url, GetSessionId(config)))
+  resp, err := http.Get(fmt.Sprintf("%s/webservices/homeautoswitch.lua?switchcmd=getdevicelistinfos&sid=%s", config.Url, config.SessionId))
   if err != nil {
     log.Fatalf("Request failed: %v", err)
   }
@@ -44,9 +44,7 @@ func GetDevices(config *Config) *Devicelist {
 func SetTargetTemperature(ain string, target_temperature float64, config *Config)  {
   tist := int(target_temperature * 2)
   ain = strings.Replace(ain, " ", "%20", -1)
-  log.Println(ain)
-  url := fmt.Sprintf("%s/webservices/homeautoswitch.lua?switchcmd=sethkrtsoll&ain=%s&param=%d&sid=%s", config.Url, ain, tist, GetSessionId(config))
-  log.Println(url)
+  url := fmt.Sprintf("%s/webservices/homeautoswitch.lua?switchcmd=sethkrtsoll&ain=%s&param=%d&sid=%s", config.Url, ain, tist, config.SessionId)
   _, err := http.Get(url)
   if err != nil {
     log.Fatalf("Request failed: %v", err)

@@ -11,6 +11,7 @@ import (
 
 func main() {
   config := api.GetConfig()
+  config.SessionId = api.GetSessionId(config)
   thermostats := []*accessory.Thermostat{}
 
   for _, device := range api.GetDevices(config).Device {
