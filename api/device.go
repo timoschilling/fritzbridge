@@ -1,5 +1,9 @@
 package api
 
+import (
+  "github.com/brutella/hc/characteristic"
+)
+
 type Devicelist struct {
   Version         string   `xml:"version,attr"`
   Device          []Device `xml:"device"`
@@ -37,4 +41,16 @@ type Device struct {
 
 func (d *Device) GetCurrentTemperature() float64 {
   return float64(d.Tist) / 2.0
+}
+
+func (d *Device) GetTargetTemperature() float64 {
+  return float64(d.Tsoll) / 2.0
+}
+
+func (d *Device) GetCurrentHeatingCoolingState() int {
+  if d.GetCurrentTemperature() < d.GetTargetTemperature() {
+    return characteristic.CurrentHeatingCoolingStateHeat
+  } else {
+    return characteristic.CurrentHeatingCoolingStateOff
+  }
 }

@@ -4,18 +4,16 @@ import (
   "github.com/brutella/hc"
   "github.com/brutella/hc/accessory"
   "log"
+  "time"
   "./api"
   "./bridge"
 )
 
 func main() {
   config := api.GetConfig()
-  accessories := []*accessory.Accessory{}
+  thermostats := []*accessory.Thermostat{}
 
-  devices := api.GetDevices(config)
-
-  for i := 0; i < len(devices.Device); i++ {
-    device := devices.Device[i]
+  for _, device := range api.GetDevices(config).Device {
     info := accessory.Info{
       Name:         device.Name,
       Manufacturer: device.Manufacturer,
@@ -24,7 +22,15 @@ func main() {
     }
 
     thermostat := accessory.NewThermostat(info, device.GetCurrentTemperature(), 16, 28, 0.5)
+    thermostat.Thermostat.TargetTemperature.OnValueRemoteUpdate(func(target_temperature float64){
+      api.SetTargetTemperature(device.Identifier, target_temperature, config)
+    })
 
+    thermostats = append(thermostats, thermostat)
+  }
+
+  accessories := []*accessory.Accessory{}
+  for _, thermostat := range thermostats {
     accessories = append(accessories, thermostat.Accessory)
   }
 
@@ -32,6 +38,19 @@ func main() {
   if err != nil {
     log.Fatal(err)
   }
+
+  ticker := time.NewTicker(time.Millisecond * 1000)
+  go func() {
+    for _ = range ticker.C {
+      for i, device := range api.GetDevices(config).Device {
+        accessory := thermostats[i]
+        accessory.Thermostat.CurrentTemperature.SetValue(device.GetCurrentTemperature())
+        accessory.Thermostat.TargetTemperature.SetValue(device.GetTargetTemperature())
+        accessory.Thermostat.CurrentHeatingCoolingState.SetValue(device.GetCurrentHeatingCoolingState())
+        accessory.Thermostat.TargetHeatingCoolingState.SetValue(device.GetCurrentHeatingCoolingState())
+      }
+    }
+  }()
 
   hc.OnTermination(func() {
     <-t.Stop()
