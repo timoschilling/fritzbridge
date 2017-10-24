@@ -35,6 +35,6 @@ type Device struct {
   Tchange         int      `xml:"hkr>nextchange>tchange"`
 }
 
-func (d *Device) GetCelsius() float64 {
-  return float64(d.Celsius) / 10.0
+func (d *Device) GetCurrentTemperature() float64 {
+  return float64(d.Tist) / 2.0
 }

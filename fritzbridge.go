@@ -23,7 +23,7 @@ func main() {
       Model:        device.Productname,
     }
 
-    thermostat := accessory.NewThermostat(info, device.GetCelsius(), 16, 28, 0.5)
+    thermostat := accessory.NewThermostat(info, device.GetCurrentTemperature(), 16, 28, 0.5)
 
     accessories = append(accessories, thermostat.Accessory)
   }
