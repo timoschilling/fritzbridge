@@ -9,6 +9,15 @@ import (
   "./bridge"
 )
 
+func FindDevice(identifier string, thermostats []*accessory.Thermostat) (*accessory.Thermostat, bool) {
+  for _, thermostat := range thermostats {
+    if thermostat.Info.SerialNumber.GetValue() == identifier {
+      return thermostat, true
+    }
+  }
+  return nil, false
+}
+
 func main() {
   config := api.GetConfig()
   config.SessionId = api.GetSessionId(config)
@@ -24,7 +33,7 @@ func main() {
 
     thermostat := accessory.NewThermostat(info, device.GetCurrentTemperature(), 16, 28, 0.5)
     thermostat.Thermostat.TargetTemperature.OnValueRemoteUpdate(func(target_temperature float64){
-      api.SetTargetTemperature(device.Identifier, target_temperature, config)
+      api.SetTargetTemperature(thermostat.Info.SerialNumber.GetValue(), target_temperature, config)
     })
 
     thermostats = append(thermostats, thermostat)
@@ -43,12 +52,14 @@ func main() {
   ticker := time.NewTicker(time.Millisecond * 1000)
   go func() {
     for _ = range ticker.C {
-      for i, device := range api.GetDevices(config).Device {
-        accessory := thermostats[i]
-        accessory.Thermostat.CurrentTemperature.SetValue(device.GetCurrentTemperature())
-        accessory.Thermostat.TargetTemperature.SetValue(device.GetTargetTemperature())
-        accessory.Thermostat.CurrentHeatingCoolingState.SetValue(device.GetCurrentHeatingCoolingState())
-        accessory.Thermostat.TargetHeatingCoolingState.SetValue(device.GetCurrentHeatingCoolingState())
+      for _, device := range api.GetDevices(config).Device {
+        accessory, err := FindDevice(device.Identifier, thermostats)
+        if err != false {
+          accessory.Thermostat.CurrentTemperature.SetValue(device.GetCurrentTemperature())
+          accessory.Thermostat.TargetTemperature.SetValue(device.GetTargetTemperature())
+          accessory.Thermostat.CurrentHeatingCoolingState.SetValue(device.GetCurrentHeatingCoolingState())
+          accessory.Thermostat.TargetHeatingCoolingState.SetValue(device.GetCurrentHeatingCoolingState())
+        }
       }
     }
   }()
