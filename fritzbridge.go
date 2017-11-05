@@ -3,6 +3,7 @@ package main
 import (
   "github.com/brutella/hc"
   "github.com/brutella/hc/accessory"
+  "os"
   "log"
   "time"
   "./api"
@@ -21,6 +22,12 @@ func FindDevice(identifier string, thermostats []*accessory.Thermostat) (*access
 func main() {
   config := api.GetConfig()
   config.SessionId = api.GetSessionId(config)
+
+  if os.Args[1] == "sessionid" {
+    log.Println(config.SessionId)
+    os.Exit(0)
+  }
+
   thermostats := []*accessory.Thermostat{}
 
   for _, device := range api.GetDevices(config).Device {
