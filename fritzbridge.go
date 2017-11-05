@@ -31,7 +31,7 @@ func main() {
       Model:        device.Productname,
     }
 
-    thermostat := accessory.NewThermostat(info, device.GetCurrentTemperature(), 16, 28, 0.5)
+    thermostat := accessory.NewThermostat(info, device.GetCurrentTemperature(), 8, 28, 0.5)
     thermostat.Thermostat.TargetTemperature.OnValueRemoteUpdate(func(target_temperature float64){
       api.SetTargetTemperature(thermostat.Info.SerialNumber.GetValue(), target_temperature, config)
     })
