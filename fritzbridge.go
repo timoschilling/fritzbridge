@@ -1,13 +1,13 @@
 package main
 
 import (
-  "github.com/brutella/hc"
-  "github.com/brutella/hc/accessory"
   "os"
   "log"
   "time"
   "./api"
   "./bridge"
+  "github.com/brutella/hc"
+  "github.com/brutella/hc/accessory"
 )
 
 func FindDevice(identifier string, thermostats []*accessory.Thermostat) (*accessory.Thermostat, bool) {
