@@ -4,6 +4,7 @@ import (
   "os"
   "log"
   "time"
+  "flag"
   "./api"
   "./bridge"
   "github.com/brutella/hc"
@@ -20,10 +21,13 @@ func FindDevice(identifier string, thermostats []*accessory.Thermostat) (*access
 }
 
 func main() {
+  get_session_id := flag.Bool("sessionid", false, "get a sessionid")
+  flag.Parse()
+
   config := api.GetConfig()
   config.SessionId = api.GetSessionId(config)
 
-  if os.Args[1] == "sessionid" {
+  if *get_session_id {
     log.Println(config.SessionId)
     os.Exit(0)
   }
