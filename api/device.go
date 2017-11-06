@@ -40,7 +40,7 @@ type Device struct {
 }
 
 func (d *Device) GetCurrentTemperature() float64 {
-  return float64(d.Tist) / 2.0
+  return float64(d.Celsius) / 10.0
 }
 
 func (d *Device) GetTargetTemperature() float64 {
