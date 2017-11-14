@@ -47,6 +47,8 @@ func main() {
       api.SetTargetTemperature(thermostat.Info.SerialNumber.GetValue(), target_temperature, config)
     })
 
+    thermostat.Info.FirmwareRevision.SetValue(device.Fwversion)
+
     thermostats = append(thermostats, thermostat)
   }
 
