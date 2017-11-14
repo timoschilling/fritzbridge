@@ -8,10 +8,10 @@ type Bridge struct {
   *accessory.Accessory
 }
 
-func NewBridge() *Bridge {
+func NewBridge(name string) *Bridge {
   acc := Bridge{}
   info := accessory.Info{
-    Name:         "Fritz!Bridge",
+    Name:         name,
     Manufacturer: "AVM",
     Model:        "Fritz!Box",
   }

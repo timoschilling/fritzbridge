@@ -55,7 +55,7 @@ func main() {
     accessories = append(accessories, thermostat.Accessory)
   }
 
-  t, err := hc.NewIPTransport(hc.Config{Pin: config.Pin, StoragePath: "database"}, bridge.NewBridge().Accessory, accessories...)
+  t, err := hc.NewIPTransport(hc.Config{Pin: config.Pin, StoragePath: "database"}, bridge.NewBridge(config.BridgeName).Accessory, accessories...)
   if err != nil {
     log.Fatal(err)
   }

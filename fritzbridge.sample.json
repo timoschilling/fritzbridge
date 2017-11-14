@@ -2,5 +2,6 @@
   "url": "http://fritz.box",
   "username": "username",
   "password": "password",
+  "bridge_name": "Fritz!Bridge",
   "pin": "12312312"
 }
