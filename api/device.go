@@ -1,6 +1,7 @@
 package api
 
 import (
+  "math"
   "github.com/brutella/hc/characteristic"
 )
 
@@ -40,11 +41,11 @@ type Device struct {
 }
 
 func (d *Device) GetCurrentTemperature() float64 {
-  return float64(d.Celsius) / 10.0
+  return math.Floor(float64(d.Celsius) / 10.0)
 }
 
 func (d *Device) GetTargetTemperature() float64 {
-  return float64(d.Tsoll) / 2.0
+  return math.Floor(float64(d.Tsoll) / 2.0)
 }
 
 func (d *Device) GetCurrentHeatingCoolingState() int {
