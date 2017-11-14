@@ -55,3 +55,11 @@ func (d *Device) GetCurrentHeatingCoolingState() int {
     return characteristic.CurrentHeatingCoolingStateOff
   }
 }
+
+func (d *Device) GetTargetHeatingCoolingState() int {
+  if d.GetCurrentTemperature() < d.GetTargetTemperature() {
+    return characteristic.TargetHeatingCoolingStateHeat
+  } else {
+    return characteristic.TargetHeatingCoolingStateAuto
+  }
+}

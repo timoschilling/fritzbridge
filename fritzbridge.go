@@ -69,7 +69,7 @@ func main() {
           accessory.Thermostat.CurrentTemperature.SetValue(device.GetCurrentTemperature())
           accessory.Thermostat.TargetTemperature.SetValue(device.GetTargetTemperature())
           accessory.Thermostat.CurrentHeatingCoolingState.SetValue(device.GetCurrentHeatingCoolingState())
-          accessory.Thermostat.TargetHeatingCoolingState.SetValue(device.GetCurrentHeatingCoolingState())
+          accessory.Thermostat.TargetHeatingCoolingState.SetValue(device.GetTargetHeatingCoolingState())
         }
       }
     }
