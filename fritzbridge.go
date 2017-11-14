@@ -9,6 +9,8 @@ import (
   "./bridge"
   "github.com/brutella/hc"
   "github.com/brutella/hc/accessory"
+  "github.com/brutella/hc/service"
+  "github.com/brutella/hc/characteristic"
 )
 
 func FindDevice(identifier string, thermostats []*accessory.Thermostat) (*accessory.Thermostat, bool) {
@@ -49,6 +51,9 @@ func main() {
 
     thermostat.Info.FirmwareRevision.SetValue(device.Fwversion)
 
+    battery := service.NewBatteryService()
+    thermostat.AddService(battery.Service)
+
     thermostats = append(thermostats, thermostat)
   }
 
@@ -72,6 +77,18 @@ func main() {
           accessory.Thermostat.TargetTemperature.SetValue(device.GetTargetTemperature())
           accessory.Thermostat.CurrentHeatingCoolingState.SetValue(device.GetCurrentHeatingCoolingState())
           accessory.Thermostat.TargetHeatingCoolingState.SetValue(device.GetTargetHeatingCoolingState())
+          for _, s := range accessory.Services {
+            if s.Type == service.TypeBatteryService {
+              for _, c := range s.Characteristics {
+                switch c.Type {
+                case characteristic.TypeStatusLowBattery:
+                  c.UpdateValue(device.GetStatusLowBattery())
+                case characteristic.TypeBatteryLevel:
+                  c.UpdateValue(device.GetBatteryLevel())
+                }
+              }
+            }
+          }
         }
       }
     }

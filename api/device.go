@@ -63,3 +63,19 @@ func (d *Device) GetTargetHeatingCoolingState() int {
     return characteristic.TargetHeatingCoolingStateAuto
   }
 }
+
+func (d *Device) GetStatusLowBattery() int {
+  if d.Batterylow {
+    return characteristic.StatusLowBatteryBatteryLevelLow
+  } else {
+    return characteristic.StatusLowBatteryBatteryLevelNormal
+  }
+}
+
+func (d *Device) GetBatteryLevel() int {
+  if d.Batterylow {
+    return 10
+  } else {
+    return 80
+  }
+}
