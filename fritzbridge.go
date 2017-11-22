@@ -67,7 +67,7 @@ func main() {
     log.Fatal(err)
   }
 
-  ticker := time.NewTicker(time.Millisecond * 1000)
+  ticker := time.NewTicker(time.Second * 10)
   go func() {
     for _ = range ticker.C {
       for _, device := range api.GetDevices(config).Device {
