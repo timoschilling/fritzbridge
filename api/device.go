@@ -49,7 +49,7 @@ func (d *Device) GetTargetTemperature() float64 {
     return d.GetCurrentTemperature()
   }
   if d.Tsoll == 254 {
-    28.0
+    return 28.0
   }
   return math.Floor(float64(d.Tsoll) / 2.0)
 }
