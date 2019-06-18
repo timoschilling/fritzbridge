@@ -48,14 +48,6 @@ func (d *Device) GetTargetTemperature() float64 {
   return math.Floor(float64(d.Tsoll) / 2.0)
 }
 
-func (d *Device) GetCurrentHeatingCoolingState() int {
-  if d.GetCurrentTemperature() < d.GetTargetTemperature() {
-    return characteristic.CurrentHeatingCoolingStateHeat
-  } else {
-    return characteristic.CurrentHeatingCoolingStateOff
-  }
-}
-
 func (d *Device) GetTargetHeatingCoolingState() int {
   if d.GetCurrentTemperature() < d.GetTargetTemperature() {
     return characteristic.TargetHeatingCoolingStateHeat
